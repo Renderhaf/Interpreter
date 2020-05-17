@@ -22,7 +22,13 @@ class Parser():
             node = ValueNode(self.get_current_token())
             self.advance()
             return node 
-            
+
+        if self.get_current_token().type == LPAREN:
+            self.advance() #In order to move into the parentheses
+            node = self.parse_expression()
+            self.advance() #In order to move out of the parentheses
+            return node
+
     def parse_expression(self)->BinNode:
         '''
         An expression consists of:

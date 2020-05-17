@@ -40,4 +40,4 @@ def test_input(text:str):
     )
 
 if __name__ == "__main__":
-    test_input(simpleExpression)
+    test_input(basicMath)
