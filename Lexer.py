@@ -13,7 +13,7 @@ class Lexer():
                 continue
 
             if self.get_current_char().isnumeric():
-                return Token(INTEGER, self.get_integer())
+                return self.get_number()
 
             if self.get_current_char() == "+":
                 self.advance()
@@ -47,14 +47,17 @@ class Lexer():
     def get_current_char(self) -> str:
         return self.text[self.position]
 
-    def get_integer(self) -> int:
+    def get_number(self) -> Token:
         s = ""
 
-        while self.position < len(self.text) and self.get_current_char().isnumeric():
+        while self.position < len(self.text) and (self.get_current_char().isnumeric() or self.get_current_char() == "."):
             s += self.get_current_char()
             self.advance()
         
-        return int(s)
+        if s.find(".") == -1:
+            return Token(INTEGER, int(s))
+        else:
+            return Token(FLOAT, float(s))          
 
     def tokenize(self, text) -> list:
         self.text = text

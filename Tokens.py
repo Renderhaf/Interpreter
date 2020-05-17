@@ -13,14 +13,28 @@ class Token():
         return self.__str__()
 
 '''
-TYPES
+TOKEN TYPES
 '''
+
+#Data types
 INTEGER = "Int"
+FLOAT = "Float"
+
+#Operators
 PLUS = "Plus"
 MINUS = "Minus"
 MUL = "Multiplication"
 DIV = "Division"
+
+#Parenthesese
 LPAREN = "LeftParenthesis"
 RPAREN = "RightParenthesis"
 
+#END OF FILE
 EOF = "EOF"
+
+'''
+DATA TYPE CATEGORIES
+'''
+
+NUMERIC = [INTEGER, FLOAT]

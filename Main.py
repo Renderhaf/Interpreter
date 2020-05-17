@@ -2,7 +2,10 @@ from Lexer import Lexer
 from Parser import Parser
 from Runner import Runner
 
+isDebug = False
+
 basicMath = "-5 * (2 -- 3)" # 25
+floatMath = "1.1 * 9 + 0.1" # 10
 
 def test_input(text:str):
     lexer = Lexer()
@@ -27,7 +30,7 @@ def test_input(text:str):
     '''.format(node_tree)
     )
 
-    runner = Runner(node_tree, True)
+    runner = Runner(node_tree, isDebug)
     print(
     '''
     The Runner ran the node tree, and came up with this result:
@@ -36,4 +39,4 @@ def test_input(text:str):
     )
 
 if __name__ == "__main__":
-    test_input(basicMath)
+    test_input(floatMath)

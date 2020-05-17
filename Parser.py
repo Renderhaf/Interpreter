@@ -18,7 +18,7 @@ class Parser():
         A Value has the highest precedence
         Value: INTEGER | LPAREN expression RPAREN
         '''
-        if self.get_current_token().type == INTEGER:
+        if self.get_current_token().type in NUMERIC:
             node = ValueNode(self.get_current_token())
             self.advance()
             return node 
