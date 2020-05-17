@@ -25,6 +25,7 @@ PLUS = "Plus"
 MINUS = "Minus"
 MUL = "Multiplication"
 DIV = "Division"
+ASSIGN = "AssignmentEquals"
 
 #Parenthesese
 LPAREN = "LeftParenthesis"
@@ -33,8 +34,22 @@ RPAREN = "RightParenthesis"
 #END OF FILE
 EOF = "EOF"
 
+#Variable ID for the Global Variable Table
+ID = "ID"
+
+SEMI = "Semicolon"
+
+
 '''
 DATA TYPE CATEGORIES
 '''
 
 NUMERIC = [INTEGER, FLOAT]
+
+'''
+KEYWORDS
+'''
+
+Keywords = [
+    "FOR", "IF", "RETURN"
+]

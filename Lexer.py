@@ -11,6 +11,9 @@ class Lexer():
             if self.get_current_char() in self.whitespace:
                 self.advance()
                 continue
+            
+            if self.get_current_char().isalpha():
+                return self.get_name()
 
             if self.get_current_char().isnumeric():
                 return self.get_number()
@@ -39,7 +42,18 @@ class Lexer():
                 self.advance()
                 return Token(RPAREN, ")")
 
+            if self.get_current_char() == "=" and self.peek() != "=":
+                self.advance()
+                return Token(ASSIGN, "=")
+
+            if self.get_current_char() == ";":
+                self.advance()
+                return Token(SEMI, ";")
+
         return Token(EOF, None)
+
+    def peek(self)->str:
+        return self.text[self.position+1]
 
     def advance(self):
         self.position+=1
@@ -57,7 +71,21 @@ class Lexer():
         if s.find(".") == -1:
             return Token(INTEGER, int(s))
         else:
-            return Token(FLOAT, float(s))          
+            return Token(FLOAT, float(s))   
+
+    def get_name(self) -> Token:
+        s = ""
+
+        while self.position < len(self.text) and (self.get_current_char().isalpha()):
+            s += self.get_current_char()
+            self.advance()   
+
+        #Be aware - This line makes the syntax case-insensitive
+        s = s.upper()
+        if s in Keywords:
+            return Token(s, s)
+        else:
+            return Token(ID, s) 
 
     def tokenize(self, text) -> list:
         self.text = text

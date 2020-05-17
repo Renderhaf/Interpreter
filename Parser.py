@@ -16,9 +16,9 @@ class Parser():
         '''
         This parses a value out of the tokens, and returns a ValueNode
         A Value has the highest precedence
-        Value: INTEGER | LPAREN expression RPAREN
+        Value: INTEGER | LPAREN expression RPAREN | FLOAT | ID | Keyword
         '''
-        if self.get_current_token().type in NUMERIC:
+        if self.get_current_token().type in NUMERIC or self.get_current_token().type == ID:
             node = ValueNode(self.get_current_token())
             self.advance()
             return node 
@@ -34,6 +34,7 @@ class Parser():
             node = SingleNode(self.parse_value(), Token(MINUS, "-"))
             return node
 
+        
     def parse_expression(self)->BinNode:
         '''
         An expression consists of:
@@ -66,7 +67,51 @@ class Parser():
         
         return left
 
+
+    def parse_program(self)->StatementListNode:
+        '''
+        Parses a program. A program consists of statements, sepereated by semicolons
+        '''
+
+        compound = StatementListNode()
+        statements = [self.parse_statement()]
+
+        while self.get_current_token().type == SEMI:
+            self.advance()
+
+            if self.get_current_token().type != EOF:
+                statements.append(self.parse_statement())
+
+        compound.statements.extend(statements)
+
+        return compound
+
+
+    def parse_statement(self):
+        '''
+        A statement consists of:
+        Statement: assignment 
+        '''
+        if self.get_current_token().type == ID:
+
+            var = self.get_current_token()
+            self.advance()
+            action = self.get_current_token()
+            self.advance()
+
+            if action.type == ASSIGN:
+                return AssignmentNode(var, action, self.parse_expression())
+
+        elif self.get_current_token().type in Keywords:
+            keyword = self.get_current_token()
+
+            if keyword.type == "RETURN":
+                self.advance()
+                return_value = self.get_current_token()
+                return ValueNode(return_value)
+
+
     def parse(self):
-        return self.parse_expression()
+        return self.parse_program()
 
 

@@ -2,10 +2,19 @@ from Lexer import Lexer
 from Parser import Parser
 from Runner import Runner
 
-isDebug = False
+infoLevel = 0
 
 basicMath = "-5 * (2 -- 3)" # 25
 floatMath = "1.1 * 9 + 0.1" # 10
+
+basicVar = "X"
+basicAssignment = "X = 5 * 3 + 5;"
+
+smallProgram = '''
+    x = 15 / 3 + 5;
+    b = 5 * x;
+    return b;
+    '''
 
 def test_input(text:str):
     lexer = Lexer()
@@ -30,7 +39,7 @@ def test_input(text:str):
     '''.format(node_tree)
     )
 
-    runner = Runner(node_tree, isDebug)
+    runner = Runner(node_tree, infoLevel)
     print(
     '''
     The Runner ran the node tree, and came up with this result:
@@ -39,4 +48,4 @@ def test_input(text:str):
     )
 
 if __name__ == "__main__":
-    test_input(floatMath)
+    test_input(smallProgram)

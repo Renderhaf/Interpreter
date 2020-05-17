@@ -3,7 +3,7 @@ from Tokens import *
 class Node():
     pass
 
-class BinNode():
+class BinNode(Node):
     '''
     This node represents binary actions, for example: addition, subtraction, multiplication...
     '''
@@ -15,10 +15,7 @@ class BinNode():
     def __str__(self):
         return "BinNode({} , {} , {})".format(self.left, self.action, self.right)
 
-    def __repr__(self):
-        return self.__str__()
-
-class ValueNode():
+class ValueNode(Node):
     '''
     This node represents a value, for example - 5
     '''
@@ -29,7 +26,7 @@ class ValueNode():
     def __str__(self):
         return "ValueNode({})".format(self.value)
 
-class SingleNode():
+class SingleNode(Node):
     '''
     This node represents a one sided action, for example: making a number negative
     '''
@@ -40,3 +37,34 @@ class SingleNode():
     def __str__(self):
         return "SingleNode({}, {})".format(self.node, self.action)
 
+class StatementListNode(Node):
+    '''
+    This node represents a list of statements, seperated by ;
+    '''
+    def __init__(self):
+        self.statements = []
+    
+    def __str__(self):
+        return "StatementList({})".format(self.statements)
+
+class AssignmentNode(Node):
+    '''
+    This node represents an assignment to a variable
+    '''
+    def __init__(self, var, action, value):
+        self.var:Token = var
+        self.action:Token = action
+        self.value:Node = value
+
+    def __str__(self):
+        return "AssignmentNode({} , {} , {})".format(self.var, self.action, self.value)
+
+    def __repr__(self):
+        return self.__str__()
+
+# class ActionNode(Node):
+#     '''
+#     This node represents an action, for example: print x
+#     '''
+
+        
