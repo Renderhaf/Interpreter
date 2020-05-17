@@ -38,11 +38,11 @@ class Parser():
     def parse_expression(self)->BinNode:
         '''
         An expression consists of:
-        Expression: term PLUS | MINUS term
+        Expression: term PLUS | MINUS | EQTO | GTHAN | GETHAN | LTHAN | LETHAN term
         '''
         left = self.parse_term()
 
-        while self.get_current_token().type in [PLUS, MINUS]:
+        while self.get_current_token().type in [PLUS, MINUS, EQTO, GTHAN, GETHAN, LTHAN, LETHAN]:
             action = self.get_current_token()
             self.advance()
 

@@ -16,6 +16,9 @@ smallProgram = '''
     return b;
     '''
 
+with open("file.txt", "r") as file:
+    fileProgram = file.read()
+
 def test_input(text:str):
     lexer = Lexer()
     tokens = lexer.tokenize(text)
@@ -48,4 +51,4 @@ def test_input(text:str):
     )
 
 if __name__ == "__main__":
-    test_input(smallProgram)
+    test_input(fileProgram)
