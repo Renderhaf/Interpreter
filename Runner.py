@@ -33,7 +33,17 @@ class Runner():
     def run_ValueNode(self, node: ValueNode):
         if self.debug:
             print("Running a value node -> [{}]".format(node.value))
+            
         return node.value
+
+    def run_SingleNode(self, node:SingleNode):
+        if self.debug:
+            print("Running a single node -> [{}, {}]".format(node.node, node.action))
+
+        if node.action.type == MINUS:
+            return -1 * self.run_node(node.node)
+
+            
 
     def run(self):
         return self.run_node(self.node_tree)

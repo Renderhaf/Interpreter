@@ -29,6 +29,11 @@ class Parser():
             self.advance() #In order to move out of the parentheses
             return node
 
+        if self.get_current_token().type == MINUS:
+            self.advance()
+            node = SingleNode(self.parse_value(), Token(MINUS, "-"))
+            return node
+
     def parse_expression(self)->BinNode:
         '''
         An expression consists of:
