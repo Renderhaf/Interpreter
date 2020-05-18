@@ -64,3 +64,50 @@ def test_if_else():
 
     assert run_code(code) == 37
 
+def test_types():
+    code = '''
+    a = 0.3;
+    b = 0.7;
+    c = 0.5;
+    return (a+b+c);
+    '''
+
+    assert run_code(code) == 1.5
+
+
+def test_for0():
+    code = '''
+    a = 0;
+    for (i : 0 to 10){
+        a = a + 1;
+    }
+    return a;
+    '''
+
+    assert run_code(code) == 10
+
+def test_for1():
+    code = '''
+    a = 0;
+    for (i : 0 to 10){
+        a = a + i;
+    }
+    return a;
+    '''
+
+    assert run_code(code) == 45
+
+
+def test_for2():
+    code = '''
+    a = 0;
+    for (i : 0 to 10){
+        a = a + 1;
+        if (a == 5){
+            return a;
+        }
+    }
+    return 10;
+    '''
+
+    assert run_code(code) == 5

@@ -48,6 +48,7 @@ EOF = "EOF"
 ID = "ID"
 
 SEMI = "Semicolon"
+COLON = "Colon"
 
 '''
 DATA TYPE CATEGORIES
@@ -60,5 +61,5 @@ KEYWORDS
 '''
 
 Keywords = [
-    "FOR", "IF", "RETURN", "ELSE"
+    "FOR", "IF", "RETURN", "ELSE", "TO"
 ]

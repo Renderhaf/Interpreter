@@ -7,8 +7,10 @@ class Parser():
         self.pos = 0
 
     def consume(self, token_type):
-        if self.get_current_token().type == token_type:
+        current_token = self.get_current_token()
+        if current_token.type == token_type:
             self.advance()
+            return current_token
         else:
             raise TypeError("The current token has an incorrect type: {} != {}".format(self.get_current_token().type, token_type))
     
@@ -120,11 +122,13 @@ class Parser():
         elif self.get_current_token().type in Keywords:
             keyword = self.get_current_token()
 
+            # Defines the syntax for return
             if keyword.type == "RETURN":
                 self.advance()
                 return_value = self.parse_value()
                 return ActionNode(Token("RETURN", "RETURN"), return_value)
 
+            # Defines the syntax for an if/else block
             elif keyword.type == "IF":
                 self.advance()
                 condition = self.parse_expression()
@@ -144,6 +148,29 @@ class Parser():
                 else:    
                     return IfNode(condition, if_statement_list, None)
 
+            # Defines the syntax for a for loop
+            elif keyword.type == "FOR":
+                self.advance()
+                self.consume(LPAREN)
+                init_statement = self.parse_for_init()
+                self.consume(RPAREN)
+
+                self.consume(LCURL)
+                statement_list = self.parse_statement_list()
+                self.consume(RCURL)
+                return ForNode(init_statement, statement_list)
+
+    def parse_for_init(self):
+        '''
+        Defines the syntax for a for init statement, for example:
+        (a : 1 to 10)
+        '''
+        variable = self.consume(ID)
+        self.consume(COLON)
+        startval = self.parse_value()
+        self.consume("TO")
+        endval = self.parse_value()
+        return {"VAR": variable, "START": startval, "END": endval}
                 
 
 

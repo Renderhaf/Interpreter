@@ -120,10 +120,40 @@ class Runner():
             self.stack.append(self.run_node(node.value))
             return True
 
-    def run_NoneType(self, none):
+    def run_NoneType(self, null):
         #This is here to make the interpreter more stable
         #Cases where this is called are for example when an empty statement is parsed
+        if self.infoLevel > 1:
+            print("Running a NULL Node")
         return
+
+    def run_ForNode(self, node:ForNode):
+        if self.infoLevel > 1:
+            print("Running a ForNode -> ({} -> {})".format(node.init_statement, node.statement_list))
+
+        #Get the init variables
+        variable = node.init_statement.get("VAR").value
+        startval = self.run_node(node.init_statement.get("START"))
+        endval = self.run_node(node.init_statement.get("END"))
+
+        retval = None
+
+        #Make sure that the var is not taken
+        if variable in self.globalVariableTable.keys():
+            raise NameError("The variable name {} is already taken.".format(variable))
+        else:
+            self.globalVariableTable[variable] = startval
+            while self.globalVariableTable[variable] < endval:
+                retval = self.run_node(node.statement_list)
+                if retval:
+                    break
+                self.globalVariableTable[variable] += 1
+
+            self.globalVariableTable.pop(variable)
+
+            return retval
+
+
 
     def run(self):
         self.run_node(self.node_tree)

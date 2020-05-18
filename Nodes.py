@@ -15,6 +15,9 @@ class BinNode(Node):
     def __str__(self):
         return "BinNode({} , {} , {})".format(self.left, self.action, self.right)
 
+    def __repr__(self):
+        return self.__str__()
+
 class ValueNode(Node):
     '''
     This node represents a value, for example - 5
@@ -25,6 +28,9 @@ class ValueNode(Node):
 
     def __str__(self):
         return "ValueNode({})".format(self.value)
+
+    def __repr__(self):
+        return self.__str__()
 
 class SingleNode(Node):
     '''
@@ -37,6 +43,9 @@ class SingleNode(Node):
     def __str__(self):
         return "SingleNode({}, {})".format(self.node, self.action)
 
+    def __repr__(self):
+        return self.__str__()
+
 class StatementListNode(Node):
     '''
     This node represents a list of statements, seperated by ;
@@ -47,6 +56,9 @@ class StatementListNode(Node):
     
     def __str__(self):
         return "StatementList({})".format(self.statements)
+
+    def __repr__(self):
+        return self.__str__()
 
 class AssignmentNode(Node):
     '''
@@ -92,6 +104,22 @@ class ActionNode(Node):
 
     def __str__(self):
         return "ActionNode({}, {})".format(self.action, self.value)
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class ForNode(Node):
+    '''
+    This node represents a for statement
+    '''
+
+    def __init__(self, init_statement: Node, statement_list: StatementListNode):
+        self.init_statement = init_statement
+        self.statement_list = statement_list
+
+    def __str__(self):
+        return "ForNode({}, {})".format(self.init_statement, self.statement_list)
 
     def __repr__(self):
         return self.__str__()

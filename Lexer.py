@@ -14,6 +14,7 @@ class Lexer():
             ")": RPAREN,
             ";": SEMI,
             "{": LCURL,
+            ":": COLON
         }
 
         # This is used for syntax fixing
