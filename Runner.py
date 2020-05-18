@@ -61,6 +61,7 @@ class Runner():
         if node.token.type == ID:
             return self.globalVariableTable.get(node.value, 0)
 
+        print("-========================{}".format(node.value))
         return node.value
 
     def run_SingleNode(self, node:SingleNode):
@@ -85,6 +86,13 @@ class Runner():
             return_value = self.run_node(statement)
             if return_value != None:
                 return return_value
+
+    def run_IfNode(self, node: IfNode):
+        if self.infoLevel > 1:
+            print("Running an If Node ->")
+        
+        if (self.run_node(node.condition) != 0):
+            self.run_node(node.statement_list)
             
 
     def run(self):

@@ -38,7 +38,6 @@ RPAREN = "RightParenthesis"
 LCURL = "LeftCurlyBraces"
 RCURL = "RightCurlyBraces"
 
-
 #END OF FILE
 EOF = "EOF"
 

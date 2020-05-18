@@ -5,6 +5,12 @@ class Parser():
     def __init__(self, token_list:list):
         self.token_list = token_list
         self.pos = 0
+
+    def consume(self, token_type):
+        if self.get_current_token().type == token_type:
+            self.advance()
+        else:
+            raise TypeError("The current token has an incorrect type: {} != {}".format(self.get_current_token().type, token_type))
     
     def get_current_token(self)->Token:
         return self.token_list[self.pos]
@@ -68,7 +74,7 @@ class Parser():
         return left
 
 
-    def parse_program(self)->StatementListNode:
+    def parse_statement_list(self)->StatementListNode:
         '''
         Parses a program. A program consists of statements, sepereated by semicolons
         '''
@@ -79,7 +85,7 @@ class Parser():
         while self.get_current_token().type == SEMI:
             self.advance()
 
-            if self.get_current_token().type != EOF:
+            if self.get_current_token().type not in [EOF, RCURL]:
                 statements.append(self.parse_statement())
 
         compound.statements.extend(statements)
@@ -110,8 +116,18 @@ class Parser():
                 return_value = self.get_current_token()
                 return ValueNode(return_value)
 
+            elif keyword.type == "IF":
+                self.advance()
+                condition = self.parse_expression()
+                self.consume(LCURL)
+                statement_list = self.parse_statement_list()
+                self.consume(RCURL)
+                return IfNode(condition, statement_list)
+
+                
+
 
     def parse(self):
-        return self.parse_program()
+        return self.parse_statement_list()
 
 

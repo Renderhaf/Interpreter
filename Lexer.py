@@ -13,6 +13,8 @@ class Lexer():
             "(": LPAREN,
             ")": RPAREN,
             ";": SEMI,
+            "{": LCURL,
+            "}": RCURL
         }
 
     def next_token(self) -> Token:

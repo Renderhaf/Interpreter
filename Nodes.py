@@ -62,9 +62,19 @@ class AssignmentNode(Node):
     def __repr__(self):
         return self.__str__()
 
-# class ActionNode(Node):
-#     '''
-#     This node represents an action, for example: print x
-#     '''
 
-        
+class IfNode(Node):
+    '''
+    This node represents an if statement
+    '''
+    def __init__(self, condition: Node, statement_list: StatementListNode):
+        self.condition = condition
+        self.statement_list = statement_list
+
+    def __str__(self):
+        return "IfNode({}, {})".format(self.condition, self.statement_list)
+
+    def __repr__(self):
+        return self.__str__()
+
+

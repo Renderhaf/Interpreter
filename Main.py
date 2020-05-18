@@ -2,7 +2,7 @@ from Lexer import Lexer
 from Parser import Parser
 from Runner import Runner
 
-infoLevel = 0
+infoLevel = 2
 
 basicMath = "-5 * (2 -- 3)" # 25
 floatMath = "1.1 * 9 + 0.1" # 10
@@ -21,14 +21,12 @@ X = 5;
 R = 0;
 if (X == 5){
     R = 1;
-} else {
-    R = 0;
-}
+} 
 
 return R;
 '''
-with open("file.txt", "r") as file:
-    fileProgram = file.read()
+# with open("file.txt", "r") as file:
+#     fileProgram = file.read()
 
 def test_input(text:str):
     lexer = Lexer()
