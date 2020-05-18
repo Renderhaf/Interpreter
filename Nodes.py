@@ -68,12 +68,16 @@ class IfNode(Node):
     '''
     This node represents an if statement
     '''
-    def __init__(self, condition: Node, statement_list: StatementListNode):
+    def __init__(self, condition: Node, if_statement_list: StatementListNode, else_statement_list:StatementListNode):
         self.condition = condition
-        self.statement_list = statement_list
+        self.if_statement_list = if_statement_list
+        self.else_statement_list = else_statement_list
 
     def __str__(self):
-        return "IfNode({}, {})".format(self.condition, self.statement_list)
+        if self.else_statement_list == None:
+            return "IfNode({}, {})".format(self.condition, self.if_statement_list)
+        else:
+            return "IfNode({}, {}, {})".format(self.condition, self.if_statement_list, self.else_statement_list)
 
     def __repr__(self):
         return self.__str__()

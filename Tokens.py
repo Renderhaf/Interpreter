@@ -60,5 +60,5 @@ KEYWORDS
 '''
 
 Keywords = [
-    "FOR", "IF", "RETURN"
+    "FOR", "IF", "RETURN", "ELSE"
 ]

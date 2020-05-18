@@ -106,7 +106,10 @@ class Runner():
             print("Running an If Node ->")
         
         if (self.run_node(node.condition) != 0):
-            return_val = self.run_node(node.statement_list)
+            return_val = self.run_node(node.if_statement_list)
+            return return_val
+        elif (node.else_statement_list != None):
+            return_val = self.run_node(node.else_statement_list)
             return return_val
             
     def run_ActionNode(self, node: ActionNode):

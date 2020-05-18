@@ -50,3 +50,17 @@ def test_nested_ifs():
     assert run_code(code) == 37
 
 
+def test_if_else():
+    code = """
+    a = 5;
+    b = 10;
+    if (a == b){
+        return 10;
+    } else {
+        return 37;
+    }
+    return 10;
+    """
+
+    assert run_code(code) == 37
+

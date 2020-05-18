@@ -17,6 +17,9 @@ class Parser():
 
     def advance(self)->None:
         self.pos += 1
+
+    def peek(self)->Token:
+        return self.token_list[self.pos+1]
     
     def parse_value(self)->ValueNode:
         '''
@@ -126,9 +129,20 @@ class Parser():
                 self.advance()
                 condition = self.parse_expression()
                 self.consume(LCURL)
-                statement_list = self.parse_statement_list()
+                if_statement_list = self.parse_statement_list()
                 self.consume(RCURL)
-                return IfNode(condition, statement_list)
+
+                #Check for else
+                if self.peek().type == "ELSE":
+                    self.consume(SEMI)
+                    self.consume("ELSE")
+                    self.consume(LCURL)
+                    else_statement_list = self.parse_statement_list()
+                    self.consume(RCURL)
+
+                    return IfNode(condition, if_statement_list, else_statement_list)
+                else:    
+                    return IfNode(condition, if_statement_list, None)
 
                 
 
