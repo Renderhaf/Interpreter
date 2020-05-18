@@ -27,14 +27,30 @@ class Runner():
         if self.infoLevel > 1:
             print("Running a BinNode -> [{} -- {} -- {}]".format(node.left, node.action, node.right))
 
+        left_node = self.run_node(node.left)
+        right_node = self.run_node(node.right)
+
+        # Arithmatic Operations
         if node.action.type == PLUS:
-            val = self.run_node(node.left) + self.run_node(node.right)
+            val = left_node + right_node
         elif node.action.type == MINUS:
-            val = self.run_node(node.left) - self.run_node(node.right)
+            val = left_node - right_node
         elif node.action.type == MUL:
-            val = self.run_node(node.left) * self.run_node(node.right)
+            val = left_node * right_node
         elif node.action.type == DIV:
-            val = self.run_node(node.left) / self.run_node(node.right)
+            val = left_node / right_node
+
+        #Logical Operations
+        elif node.action.type == EQTO:
+            val = 1 if left_node == right_node else 0
+        elif node.action.type == GTHAN:
+            val = 1 if left_node > right_node else 0
+        elif node.action.type == GETHAN:
+            val = 1 if left_node >= right_node else 0
+        elif node.action.type == LTHAN:
+            val = 1 if left_node < right_node else 0
+        elif node.action.type == LETHAN:
+            val = 1 if left_node <= right_node else 0
 
         return val
 

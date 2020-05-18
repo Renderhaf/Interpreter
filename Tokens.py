@@ -26,6 +26,11 @@ MINUS = "Minus"
 MUL = "Multiplication"
 DIV = "Division"
 ASSIGN = "AssignmentEquals"
+EQTO = "EqualsTo"
+GTHAN = "GreaterThan"
+LTHAN = "LessThan"
+GETHAN = "GreaterOrEqualsTo"
+LETHAN = "LessOrEqualsTo"
 
 #Parenthesese
 LPAREN = "LeftParenthesis"

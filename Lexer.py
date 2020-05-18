@@ -5,50 +5,69 @@ class Lexer():
         self.position = 0
         self.text = ""
         self.whitespace = [" ", "\n"]
+        self.symbols = {
+            "+": PLUS,
+            "-": MINUS,
+            "*": MUL,
+            "/": DIV,
+            "(": LPAREN,
+            ")": RPAREN,
+            ";": SEMI,
+        }
 
     def next_token(self) -> Token:
         while self.position < len(self.text):
+
+            # Ignore whitespaces
             if self.get_current_char() in self.whitespace:
                 self.advance()
                 continue
             
+            # Tokenize keywords and variables
             if self.get_current_char().isalpha():
                 return self.get_name()
 
+            # Tokenize numeric values 
             if self.get_current_char().isnumeric():
                 return self.get_number()
 
-            if self.get_current_char() == "+":
-                self.advance()
-                return Token(PLUS, "+")
+            # Tokenize one char tokens
+            for symbol in self.symbols.keys():
+                if self.get_current_char() == symbol:
+                    self.advance()
+                    return Token(self.symbols[symbol], symbol)
 
-            if self.get_current_char() == "-":
+            # Tokenize == and =
+            if self.get_current_char() == "=":
+                token = None
+                if self.peek() == "=":
+                    token = Token(EQTO, "==")
+                    self.advance()
+                else:
+                    token = Token(ASSIGN, "=")
                 self.advance()
-                return Token(MINUS, "-")
+                return token
 
-            if self.get_current_char() == "*":
+            if self.get_current_char() == ">":
+                token = None
+                if self.peek() == "=":
+                    token = Token(GETHAN, ">=")
+                    self.advance()
+                else:
+                    token = Token(GTHAN, ">")
                 self.advance()
-                return Token(MUL, "*")
+                return token
             
-            if self.get_current_char() == "/":
+            if self.get_current_char() == "<":
+                token = None
+                if self.peek() == "=":
+                    token = Token(LETHAN, "<=")
+                    self.advance()
+                else:
+                    token = Token(LTHAN, "<")
                 self.advance()
-                return Token(DIV, "/")
+                return token
 
-            if self.get_current_char() == "(":
-                self.advance()
-                return Token(LPAREN, "(")
-
-            if self.get_current_char() == ")":
-                self.advance()
-                return Token(RPAREN, ")")
-
-            if self.get_current_char() == "=" and self.peek() != "=":
-                self.advance()
-                return Token(ASSIGN, "=")
-
-            if self.get_current_char() == ";":
-                self.advance()
-                return Token(SEMI, ";")
 
         return Token(EOF, None)
 

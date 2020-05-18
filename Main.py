@@ -27,6 +27,8 @@ if (X == 5){
 
 return R;
 '''
+with open("file.txt", "r") as file:
+    fileProgram = file.read()
 
 def test_input(text:str):
     lexer = Lexer()
@@ -60,4 +62,4 @@ def test_input(text:str):
     )
 
 if __name__ == "__main__":
-    test_input(smallProgram)
+    test_input(ifProgram)
