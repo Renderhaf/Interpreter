@@ -82,10 +82,16 @@ class Runner():
         if self.infoLevel > 1:
             print("Running an Statement List Node ->")
 
+        has_returned = False
+
         for statement in node.statements:
-            return_value = self.run_node(statement)
-            if return_value != None:
-                return return_value
+            is_return = self.run_node(statement)
+            if is_return: 
+                has_returned = True
+                break
+
+        if not node.isFunction:
+            return True
 
     def run_IfNode(self, node: IfNode):
         if self.infoLevel > 1:
@@ -96,10 +102,11 @@ class Runner():
             
     def run_ActionNode(self, node: ActionNode):
         if self.infoLevel > 1:
-            print("Running an If Node -> ({} -> {})".format(node.action.type, node.value))
+            print("Running an Action Node -> ({} -> {})".format(node.action.type, node.value))
 
         if node.action.type == "RETURN":
             self.stack.append(self.run_node(node.value))
+            return True
 
     def run_NoneType(self, none):
         #This is here to make the interpreter more stable
@@ -110,6 +117,7 @@ class Runner():
         self.run_node(self.node_tree)
         if self.infoLevel > 0:
             print("Global Variable Table at EOF is {}".format(self.globalVariableTable))
+            print("Stakc at EOF is {}".format(self.stack))
 
         return_value = self.stack.pop()
         return return_value

@@ -41,8 +41,9 @@ class StatementListNode(Node):
     '''
     This node represents a list of statements, seperated by ;
     '''
-    def __init__(self):
+    def __init__(self, isFunction=False):
         self.statements = []
+        self.isFunction = isFunction
     
     def __str__(self):
         return "StatementList({})".format(self.statements)
