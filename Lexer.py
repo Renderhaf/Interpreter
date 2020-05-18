@@ -14,10 +14,16 @@ class Lexer():
             ")": RPAREN,
             ";": SEMI,
             "{": LCURL,
-            "}": RCURL
         }
 
+        # This is used for syntax fixing
+        self.cache = []
+
     def next_token(self) -> Token:
+        # If the token cache is not empty, pop from it
+        if len(self.cache) != 0:
+            return self.cache.pop()
+
         while self.position < len(self.text):
 
             # Ignore whitespaces
@@ -38,6 +44,14 @@ class Lexer():
                 if self.get_current_char() == symbol:
                     self.advance()
                     return Token(self.symbols[symbol], symbol)
+
+            # For easier writing, the lexer will append a RightCurly with a semicolon
+            if self.get_current_char() == "}":
+                token = Token(RCURL, "}")
+                if self.peek() != ";":
+                    self.cache.append(Token(SEMI, ";"))
+                self.advance()
+                return token
 
             # Tokenize == and =
             if self.get_current_char() == "=":
@@ -116,6 +130,7 @@ class Lexer():
         while current_token.value != None:
             tokens.append(current_token)
             current_token = self.next_token()
+
         tokens.append(Token(EOF, None))
 
         return tokens

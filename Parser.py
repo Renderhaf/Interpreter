@@ -82,10 +82,11 @@ class Parser():
         compound = StatementListNode()
         statements = [self.parse_statement()]
 
-        while self.get_current_token().type == SEMI:
+        while self.get_current_token().type in [SEMI]:
             self.advance()
 
-            if self.get_current_token().type not in [EOF, RCURL]:
+            if self.get_current_token().type != EOF:
+                
                 statements.append(self.parse_statement())
 
         compound.statements.extend(statements)
@@ -113,8 +114,8 @@ class Parser():
 
             if keyword.type == "RETURN":
                 self.advance()
-                return_value = self.get_current_token()
-                return ValueNode(return_value)
+                return_value = self.parse_value()
+                return ActionNode(Token("RETURN", "RETURN"), return_value)
 
             elif keyword.type == "IF":
                 self.advance()

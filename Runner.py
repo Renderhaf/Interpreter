@@ -5,6 +5,7 @@ class Runner():
     def __init__(self, node_tree, infoLevel = 0):
        self.node_tree = node_tree
        self.globalVariableTable = dict()
+       self.stack = []
 
        '''
        Info Levels:
@@ -61,7 +62,6 @@ class Runner():
         if node.token.type == ID:
             return self.globalVariableTable.get(node.value, 0)
 
-        print("-========================{}".format(node.value))
         return node.value
 
     def run_SingleNode(self, node:SingleNode):
@@ -94,12 +94,24 @@ class Runner():
         if (self.run_node(node.condition) != 0):
             self.run_node(node.statement_list)
             
+    def run_ActionNode(self, node: ActionNode):
+        if self.infoLevel > 1:
+            print("Running an If Node -> ({} -> {})".format(node.action.type, node.value))
+
+        if node.action.type == "RETURN":
+            self.stack.append(self.run_node(node.value))
+
+    def run_NoneType(self, none):
+        #This is here to make the interpreter more stable
+        #Cases where this is called are for example when an empty statement is parsed
+        return
 
     def run(self):
-        return_value = self.run_node(self.node_tree)
+        self.run_node(self.node_tree)
         if self.infoLevel > 0:
             print("Global Variable Table at EOF is {}".format(self.globalVariableTable))
 
+        return_value = self.stack.pop()
         return return_value
 
 if __name__ == "__main__":

@@ -77,4 +77,16 @@ class IfNode(Node):
     def __repr__(self):
         return self.__str__()
 
+class ActionNode(Node):
+    '''
+    This node will be used for action keywords that are not functions (Return, Print...)
+    '''
+    def __init__(self, action: Token, value: Node):
+        self.action = action
+        self.value = value
 
+    def __str__(self):
+        return "ActionNode({}, {})".format(self.action, self.value)
+
+    def __repr__(self):
+        return self.__str__()

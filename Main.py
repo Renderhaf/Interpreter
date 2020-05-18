@@ -2,7 +2,7 @@ from Lexer import Lexer
 from Parser import Parser
 from Runner import Runner
 
-infoLevel = 2
+infoLevel = 0
 
 basicMath = "-5 * (2 -- 3)" # 25
 floatMath = "1.1 * 9 + 0.1" # 10
@@ -21,7 +21,7 @@ X = 5;
 R = 0;
 if (X == 5){
     R = 1;
-} 
+}
 
 return R;
 '''
