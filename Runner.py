@@ -92,21 +92,22 @@ class Runner():
             is_return = self.run_node(statement)
 
             if self.infoLevel > 2:
-                print("Return Value is -> {}".format(is_return))
+                print("Return Value for type {} is -> {}".format(statement.__class__.__name__, is_return))
 
             if is_return: 
                 has_returned = True
                 break
 
         if not node.isFunction:
-            return True
+            return has_returned
 
     def run_IfNode(self, node: IfNode):
         if self.infoLevel > 1:
             print("Running an If Node ->")
         
         if (self.run_node(node.condition) != 0):
-            self.run_node(node.statement_list)
+            return_val = self.run_node(node.statement_list)
+            return return_val
             
     def run_ActionNode(self, node: ActionNode):
         if self.infoLevel > 1:
