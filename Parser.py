@@ -40,15 +40,20 @@ class Parser():
             node = SingleNode(self.parse_value(), Token(MINUS, "-"))
             return node
 
+        if self.get_current_token().type == BANG:
+            self.advance()
+            node = SingleNode(self.parse_value(), Token(BANG, "!"))
+            return node
+
         
     def parse_expression(self)->BinNode:
         '''
         An expression consists of:
-        Expression: term PLUS | MINUS | EQTO | GTHAN | GETHAN | LTHAN | LETHAN term
+        Expression: term PLUS | MINUS | EQTO | GTHAN | GETHAN | LTHAN | LETHAN | NEQTO term
         '''
         left = self.parse_term()
 
-        while self.get_current_token().type in [PLUS, MINUS, EQTO, GTHAN, GETHAN, LTHAN, LETHAN]:
+        while self.get_current_token().type in [PLUS, MINUS, EQTO, GTHAN, GETHAN, LTHAN, LETHAN, NEQTO]:
             action = self.get_current_token()
             self.advance()
 

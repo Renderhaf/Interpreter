@@ -37,31 +37,31 @@ def test_input(text:str):
     tokens = lexer.tokenize(text)
 
     print(
-    '''
-    The lexer input was:
-    {}
-    
-    The Tokenized output from it was:
-    {}
-    '''.format(text, tokens))
+'''
+The lexer input was:
+{}
+
+The Tokenized output from it was:
+{}
+'''.format(text, tokens))
 
     parser = Parser(tokens)
     node_tree = parser.parse()
 
     print(
-    '''
-    The Parser then created this Node Tree:
-    {}
-    '''.format(node_tree)
-    )
+'''
+The Parser then created this Node Tree:
+{}
+'''.format(node_tree)
+)
 
     runner = Runner(node_tree, infoLevel)
     print(
-    '''
-    The Runner ran the node tree, and came up with this result:
-    {}
-    '''.format(runner.run())
-    )
+'''
+The Runner ran the node tree, and came up with this result:
+{}
+'''.format(runner.run())
+)
 
 if __name__ == "__main__":
     test_input(fileProgram)

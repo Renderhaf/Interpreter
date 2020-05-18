@@ -44,6 +44,8 @@ class Runner():
         #Logical Operations
         elif node.action.type == EQTO:
             val = 1 if left_node == right_node else 0
+        elif node.action.type == NEQTO:
+            val = 1 if left_node != right_node else 0
         elif node.action.type == GTHAN:
             val = 1 if left_node > right_node else 0
         elif node.action.type == GETHAN:
@@ -70,6 +72,8 @@ class Runner():
 
         if node.action.type == MINUS:
             return -1 * self.run_node(node.node)
+        elif node.action.type == BANG:
+            return 1 if self.run_node(node.node) == 0 else 0
 
     def run_AssignmentNode(self, node:AssignmentNode):
         if self.infoLevel > 1:
@@ -86,6 +90,10 @@ class Runner():
 
         for statement in node.statements:
             is_return = self.run_node(statement)
+
+            if self.infoLevel > 2:
+                print("Return Value is -> {}".format(is_return))
+
             if is_return: 
                 has_returned = True
                 break
@@ -117,7 +125,7 @@ class Runner():
         self.run_node(self.node_tree)
         if self.infoLevel > 0:
             print("Global Variable Table at EOF is {}".format(self.globalVariableTable))
-            print("Stakc at EOF is {}".format(self.stack))
+            print("Stack at EOF is {}".format(self.stack))
 
         return_value = self.stack.pop()
         return return_value

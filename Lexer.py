@@ -84,6 +84,16 @@ class Lexer():
                 self.advance()
                 return token
 
+            if self.get_current_char() == "!":
+                token = None
+                if self.peek() == "=":
+                    token = Token(NEQTO, "!=")
+                    self.advance()
+                else:
+                    token = Token(BANG, "!")
+                self.advance()
+                return token
+
 
         return Token(EOF, None)
 
