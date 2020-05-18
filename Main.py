@@ -16,6 +16,18 @@ smallProgram = '''
     return b;
     '''
 
+ifProgram = '''
+X = 5;
+R = 0;
+if (X == 5){
+    R = 1;
+} else {
+    R = 0;
+}
+
+return R;
+'''
+
 def test_input(text:str):
     lexer = Lexer()
     tokens = lexer.tokenize(text)

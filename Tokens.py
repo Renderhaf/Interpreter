@@ -30,6 +30,9 @@ ASSIGN = "AssignmentEquals"
 #Parenthesese
 LPAREN = "LeftParenthesis"
 RPAREN = "RightParenthesis"
+LCURL = "LeftCurlyBraces"
+RCURL = "RightCurlyBraces"
+
 
 #END OF FILE
 EOF = "EOF"
@@ -38,7 +41,6 @@ EOF = "EOF"
 ID = "ID"
 
 SEMI = "Semicolon"
-
 
 '''
 DATA TYPE CATEGORIES

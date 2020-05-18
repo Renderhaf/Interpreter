@@ -55,7 +55,7 @@ class Parser():
     def parse_term(self)->BinNode:
         '''
         A term consists of:
-        Term: value MUL | DIV value
+        Term: value MUL | DIV value || value
         '''
         left = self.parse_value()
 
