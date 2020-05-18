@@ -111,3 +111,17 @@ def test_for2():
     '''
 
     assert run_code(code) == 5
+
+def test_break():
+    code = '''
+    a = 0;
+    for (i : 0 to 101){
+        a = a + 1;
+        if (a == 50){
+            break;
+        }
+    }
+    return a;
+    '''
+
+    assert run_code(code) == 50

@@ -160,6 +160,10 @@ class Parser():
                 self.consume(RCURL)
                 return ForNode(init_statement, statement_list)
 
+            elif keyword.type == "BREAK":
+                self.advance()
+                return ActionNode(Token("BREAK", "BREAK"), None)
+
     def parse_for_init(self):
         '''
         Defines the syntax for a for init statement, for example:
