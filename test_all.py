@@ -157,4 +157,6 @@ def test_while():
 
     assert run_code(code) == 10
 
-
+def test_comment():
+    code = '''#return 5;#'''
+    assert run_code(code) == None

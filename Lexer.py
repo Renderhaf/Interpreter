@@ -20,6 +20,8 @@ class Lexer():
         # This is used for syntax fixing
         self.cache = []
 
+        self.isInComment = False
+
     def next_token(self) -> Token:
         # If the token cache is not empty, pop from it
         if len(self.cache) != 0:
@@ -94,6 +96,12 @@ class Lexer():
                     token = Token(BANG, "!")
                 self.advance()
                 return token
+            
+            if self.get_current_char() == "#":
+                self.isInComment = not self.isInComment
+
+            #If nothing was returned, keep going
+            self.advance()
 
 
         return Token(EOF, None)
@@ -139,7 +147,8 @@ class Lexer():
         tokens = []
         current_token = self.next_token()
         while current_token.value != None:
-            tokens.append(current_token)
+            if not self.isInComment:
+                tokens.append(current_token)
             current_token = self.next_token()
 
         tokens.append(Token(EOF, None))

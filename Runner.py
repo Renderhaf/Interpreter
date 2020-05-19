@@ -234,5 +234,10 @@ class Runner():
                 self.globalVariableTable))
             print("Stack at EOF is {}".format(self.stack))
 
-        return_value = self.stack.pop()
+        #Return the return value if possible
+        try:
+            return_value = self.stack.pop()
+        except IndexError:
+            return None
+
         return return_value

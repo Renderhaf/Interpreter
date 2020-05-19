@@ -99,6 +99,10 @@ class Parser():
 
                 statements.append(self.parse_statement())
 
+                #Remove Nones from the statement list
+                if statements[-1] == None:
+                    statements.pop()
+
         compound.statements.extend(statements)
 
         return compound
@@ -178,6 +182,8 @@ class Parser():
                 self.advance()
                 val = self.parse_value()
                 return ActionNode(Token("PRINT", "PRINT"), val)
+
+        return None
 
     def parse_for_init(self):
         '''
