@@ -1,0 +1,14 @@
+Calculate the golden ration:
+
+a = 1;
+b = 1;
+temp = 0;
+n = 10000;
+
+while (a < n){
+    temp = b;
+    b = a + b;
+    a = temp;
+}
+
+return (b/a);
