@@ -125,3 +125,19 @@ def test_break():
     '''
 
     assert run_code(code) == 50
+
+def test_nested_break():
+    code = '''
+    a = 0;
+    for (i : 0 to 10){
+        for (j : 0 to 10){
+            a = a + 1;
+            if (a >= 50){
+                break;
+            }
+        }
+    }
+    return a;
+    '''
+
+    assert run_code(code) == 55
