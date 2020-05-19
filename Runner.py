@@ -1,7 +1,6 @@
 from Nodes import *
 from Tokens import *
 
-
 class Runner():
     def __init__(self, node_tree, infoLevel=0):
         self.node_tree = node_tree
@@ -165,6 +164,11 @@ class Runner():
         elif node.action.type == "BREAK":
             # TODO: this should be changed into a return_value class
             return "BREAK"
+
+        elif node.action.type == "PRINT":
+            val = self.run_node(node.value)
+            print(val)
+            return False
 
     def run_NoneType(self, null):
         # This is here to make the interpreter more stable

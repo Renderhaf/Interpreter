@@ -1,8 +1,9 @@
 from Tokens import *
 from Nodes import *
 
+
 class Parser():
-    def __init__(self, token_list:list):
+    def __init__(self, token_list: list):
         self.token_list = token_list
         self.pos = 0
 
@@ -12,18 +13,19 @@ class Parser():
             self.advance()
             return current_token
         else:
-            raise TypeError("The current token has an incorrect type: {} != {}".format(self.get_current_token().type, token_type))
-    
-    def get_current_token(self)->Token:
+            raise TypeError("The current token has an incorrect type: {} != {}".format(
+                self.get_current_token().type, token_type))
+
+    def get_current_token(self) -> Token:
         return self.token_list[self.pos]
 
-    def advance(self)->None:
+    def advance(self) -> None:
         self.pos += 1
 
-    def peek(self)->Token:
+    def peek(self) -> Token:
         return self.token_list[self.pos+1]
-    
-    def parse_value(self)->ValueNode:
+
+    def parse_value(self) -> ValueNode:
         '''
         This parses a value out of the tokens, and returns a ValueNode
         A Value has the highest precedence
@@ -32,12 +34,12 @@ class Parser():
         if self.get_current_token().type in NUMERIC or self.get_current_token().type == ID:
             node = ValueNode(self.get_current_token())
             self.advance()
-            return node 
+            return node
 
         if self.get_current_token().type == LPAREN:
-            self.advance() #In order to move into the parentheses
+            self.advance()  # In order to move into the parentheses
             node = self.parse_expression()
-            self.advance() #In order to move out of the parentheses
+            self.advance()  # In order to move out of the parentheses
             return node
 
         if self.get_current_token().type == MINUS:
@@ -50,8 +52,7 @@ class Parser():
             node = SingleNode(self.parse_value(), Token(BANG, "!"))
             return node
 
-        
-    def parse_expression(self)->BinNode:
+    def parse_expression(self) -> BinNode:
         '''
         An expression consists of:
         Expression: term PLUS | MINUS | EQTO | GTHAN | GETHAN | LTHAN | LETHAN | NEQTO term
@@ -65,10 +66,10 @@ class Parser():
             # Recursivly define the left node as the left node PLUS | MINUS the right node, and parse the right node
             # This way, in case of a long expression (ex: 4 + 3 + 2 + 1), the older nodes will be pushed left
             left = BinNode(left, action, self.parse_term())
-        
+
         return left
 
-    def parse_term(self)->BinNode:
+    def parse_term(self) -> BinNode:
         '''
         A term consists of:
         Term: value MUL | DIV value || value
@@ -80,11 +81,10 @@ class Parser():
             self.advance()
 
             left = BinNode(left, action, self.parse_value())
-        
+
         return left
 
-
-    def parse_statement_list(self)->StatementListNode:
+    def parse_statement_list(self) -> StatementListNode:
         '''
         Parses a program. A program consists of statements, sepereated by semicolons
         '''
@@ -96,13 +96,12 @@ class Parser():
             self.advance()
 
             if self.get_current_token().type != EOF:
-                
+
                 statements.append(self.parse_statement())
 
         compound.statements.extend(statements)
 
         return compound
-
 
     def parse_statement(self):
         '''
@@ -136,7 +135,7 @@ class Parser():
                 if_statement_list = self.parse_statement_list()
                 self.consume(RCURL)
 
-                #Check for else
+                # Check for else
                 if self.peek().type == "ELSE":
                     self.consume(SEMI)
                     self.consume("ELSE")
@@ -145,7 +144,7 @@ class Parser():
                     self.consume(RCURL)
 
                     return IfNode(condition, if_statement_list, else_statement_list)
-                else:    
+                else:
                     return IfNode(condition, if_statement_list, None)
 
             # Defines the syntax for a for loop
@@ -170,12 +169,15 @@ class Parser():
                 statement_list = self.parse_statement_list()
                 self.consume(RCURL)
                 return WhileNode(condition, statement_list)
-                
-                
 
             elif keyword.type == "BREAK":
                 self.advance()
                 return ActionNode(Token("BREAK", "BREAK"), None)
+
+            elif keyword.type == "PRINT":
+                self.advance()
+                val = self.parse_value()
+                return ActionNode(Token("PRINT", "PRINT"), val)
 
     def parse_for_init(self):
         '''
@@ -188,10 +190,6 @@ class Parser():
         self.consume("TO")
         endval = self.parse_value()
         return {"VAR": variable, "START": startval, "END": endval}
-                
-
 
     def parse(self):
         return self.parse_statement_list()
-
-
