@@ -160,6 +160,19 @@ class Parser():
                 self.consume(RCURL)
                 return ForNode(init_statement, statement_list)
 
+            elif keyword.type == "WHILE":
+                self.advance()
+                self.consume(LPAREN)
+                condition = self.parse_expression()
+                self.consume(RPAREN)
+
+                self.consume(LCURL)
+                statement_list = self.parse_statement_list()
+                self.consume(RCURL)
+                return WhileNode(condition, statement_list)
+                
+                
+
             elif keyword.type == "BREAK":
                 self.advance()
                 return ActionNode(Token("BREAK", "BREAK"), None)

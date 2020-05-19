@@ -141,3 +141,20 @@ def test_nested_break():
     '''
 
     assert run_code(code) == 55
+
+def test_while():
+    code = '''
+    a = 0;
+    i = 0;
+
+    while (i < 10){
+        a = a + 1;
+        i = i + 1;
+    }
+
+    return a;
+    '''
+
+    assert run_code(code) == 10
+
+

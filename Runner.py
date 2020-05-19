@@ -194,7 +194,6 @@ class Runner():
             while self.globalVariableTable[variable] < endval:
                 retval = self.run_node(node.statement_list)
                 if retval or retval == "BREAK":
-                    print(retval)
                     break
                 self.globalVariableTable[variable] += 1
 
@@ -204,6 +203,25 @@ class Runner():
                 return False
             else:
                 return retval
+
+    def run_WhileNode(self, node: WhileNode):
+        if self.infoLevel > 1:
+            print(
+                "Running a WhileNode -> ({} -> {})".format(node.condition, node.statement_list))
+
+        condition = node.condition
+
+        retval = None
+
+        while self.run_node(condition) == 1:
+            retval = self.run_node(node.statement_list)
+            if retval or retval == "BREAK":
+                break
+
+        if retval == "BREAK":
+            return False
+        else:
+            return retval
 
     def run(self):
         self.run_node(self.node_tree)

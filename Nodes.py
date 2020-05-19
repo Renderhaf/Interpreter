@@ -111,7 +111,7 @@ class ActionNode(Node):
 
 class ForNode(Node):
     '''
-    This node represents a for statement
+    This node represents a for loop
     '''
 
     def __init__(self, init_statement: Node, statement_list: StatementListNode):
@@ -120,6 +120,22 @@ class ForNode(Node):
 
     def __str__(self):
         return "ForNode({}, {})".format(self.init_statement, self.statement_list)
+
+    def __repr__(self):
+        return self.__str__()
+
+
+class WhileNode(Node):
+    '''
+    This node represents a while loop
+    '''
+
+    def __init__(self, condition: Node, statement_list: StatementListNode):
+        self.condition = condition
+        self.statement_list = statement_list
+
+    def __str__(self):
+        return "WhileNode({}, {})".format(self.condition, self.statement_list)
 
     def __repr__(self):
         return self.__str__()
