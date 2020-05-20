@@ -9,7 +9,7 @@ class ResourceScopeManager():
         #-1 means we currently have no scope
         self.scope_level = -1
 
-    def get_variable(self, name):
+    def get_variable(self, name:str):
         '''
         Checks the scope and returns the var from there
         Defaults to 0
@@ -20,13 +20,13 @@ class ResourceScopeManager():
         else:
             return 0
 
-    def set_variable(self, name, value):
+    def set_variable(self, name:str, value)->None:
         if self.scope_level == -1:
             self.global_scope[name] = value
         else:
             self.get_current_scope()[name] = value
 
-    def get_scoped_vars(self):
+    def get_scoped_vars(self)->dict:
         '''
         returns the global and current scope merged, with precedence to the local scope
         '''
@@ -39,14 +39,28 @@ class ResourceScopeManager():
 
         return merged_scope
 
-    def del_variable(self, name):
+    def del_variable(self, name:str)->None:
         if name in self.get_current_scope():
             self.get_current_scope().pop(name)
         elif name in self.global_scope:
             self.global_scope.pop(name)
 
-    def get_global_vars(self):
+    def get_global_vars(self)->dict:
         return self.global_scope
 
     def get_current_scope(self) -> dict:
         return self.scopes[self.scope_level] if self.scope_level > -1 else dict()
+
+    def inc_scope(self)->None:
+        self.scopes.append(dict())
+        self.scope_level += 1
+
+    def dec_scope(self)->None:
+        self.scopes.pop()
+        self.scope_level -= 1
+
+    def is_variable(self, name)->bool:
+        '''
+        returns wheather the variable exists or not
+        '''
+        return name in self.get_scoped_vars().keys()

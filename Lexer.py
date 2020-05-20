@@ -5,9 +5,8 @@ class Lexer():
         self.position = 0
         self.text = ""
         self.whitespace = [" ", "\n"]
+        #Defines simple single char tokens
         self.symbols = {
-            "+": PLUS,
-            "-": MINUS,
             "*": MUL,
             "/": DIV,
             "(": LPAREN,
@@ -99,6 +98,34 @@ class Lexer():
             
             if self.get_current_char() == "#":
                 self.isInComment = not self.isInComment
+
+            #Tokeize ++ += +
+            if self.get_current_char() == "+":
+                token = None
+                if self.peek() == "+":
+                    token = Token(PLUSPLUS, "++")
+                    self.advance()
+                elif self.peek() == "=":
+                    token = Token(PLUSEQ, "+=")
+                    self.advance()
+                else:
+                    token = Token(PLUS, "+")
+                self.advance()
+                return token
+
+            #Tokeize -- -= -
+            if self.get_current_char() == "-":
+                token = None
+                if self.peek() == "-":
+                    token = Token(MINUSMINUS, "--")
+                    self.advance()
+                elif self.peek() == "=":
+                    token = Token(MINUSEQ, "-=")
+                    self.advance()
+                else:
+                    token = Token(MINUS, "-")
+                self.advance()
+                return token
 
             #If nothing was returned, keep going
             self.advance()

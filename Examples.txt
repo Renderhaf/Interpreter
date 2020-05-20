@@ -12,3 +12,15 @@ while (a < n){
 }
 
 return (b/a);
+
+#Get 2^exp#
+
+a = 1;
+exp = 15;
+
+for (i : 0 to (exp)){
+    print a;
+    a += a;
+}
+
+return a;

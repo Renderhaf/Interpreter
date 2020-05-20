@@ -119,8 +119,12 @@ class Parser():
             action = self.get_current_token()
             self.advance()
 
-            if action.type == ASSIGN:
+            if action.type in [ASSIGN, PLUSEQ, MINUSEQ]:
                 return AssignmentNode(var, action, self.parse_expression())
+            elif action.type in [PLUSPLUS, MINUSMINUS]:
+                #Convert ++ and -- to either += 1 or -= 1
+                action = Token(PLUSEQ, "+=") if action.type == PLUSPLUS else Token(MINUSEQ, "-=")
+                return AssignmentNode(var, action, ValueNode(Token(INTEGER, 1)))
 
         elif self.get_current_token().type in Keywords:
             keyword = self.get_current_token()

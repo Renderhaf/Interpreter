@@ -160,3 +160,27 @@ def test_while():
 def test_comment():
     code = '''#return 5;#'''
     assert run_code(code) == None
+
+def test_plusplusminusminus():
+    code = '''
+    a = 0;
+    for (i : 0 to 10){
+        a++;
+    }
+    a--;
+    return a;
+    '''
+
+    assert run_code(code) == 9
+
+def test_pluseqminuseq():
+    code = '''
+    a = 0;
+    for (i : 0 to 10){
+        a+=5;
+    }
+    a-=10;
+    return a;
+    '''
+
+    assert run_code(code) == 40

@@ -99,9 +99,23 @@ class Runner():
             print(
                 "Running an Assignment node -> [{} -- {} -- {}]".format(node.var, node.action, node.value))
 
+        varname = node.var.value
+
         if node.action.type == ASSIGN:
-            self.source_manager.set_variable(node.var.value ,self.run_node(
+            self.source_manager.set_variable(varname, self.run_node(
                 node.value))
+        elif node.action.type == PLUSEQ:
+            #Make sure that the var exists
+            assert self.source_manager.is_variable(varname)
+
+            nval = self.source_manager.get_variable(varname) + self.run_node(node.value)
+            self.source_manager.set_variable(varname, nval)
+        elif node.action.type == MINUSEQ:
+            #Make sure that the var exists
+            assert self.source_manager.is_variable(varname)
+
+            nval = self.source_manager.get_variable(varname) - self.run_node(node.value)
+            self.source_manager.set_variable(varname, nval)
 
         return None
 
