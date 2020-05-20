@@ -29,9 +29,17 @@ class Parser():
         '''
         This parses a value out of the tokens, and returns a ValueNode
         A Value has the highest precedence
-        Value: INTEGER | LPAREN expression RPAREN | FLOAT | ID | Keyword
+        Value: INTEGER | LPAREN expression RPAREN | FLOAT | ID | Keyword | FunctionCall
         '''
-        if self.get_current_token().type in NUMERIC or self.get_current_token().type == ID:
+        if self.get_current_token().type == ID:
+            if self.peek().type == LPAREN:
+                return self.parse_functioncall()
+            else:
+                node = ValueNode(self.get_current_token())
+                self.advance()
+                return node   
+
+        if self.get_current_token().type in NUMERIC:
             node = ValueNode(self.get_current_token())
             self.advance()
             return node
@@ -114,17 +122,22 @@ class Parser():
         '''
         if self.get_current_token().type == ID:
 
-            var = self.get_current_token()
-            self.advance()
-            action = self.get_current_token()
-            self.advance()
+            #If its a function call
+            if self.peek().type == LPAREN:
+                return self.parse_functioncall()
+            else:
+                #Assignment
+                var = self.get_current_token()
+                self.advance()
+                action = self.get_current_token()
+                self.advance()
 
-            if action.type in [ASSIGN, PLUSEQ, MINUSEQ]:
-                return AssignmentNode(var, action, self.parse_expression())
-            elif action.type in [PLUSPLUS, MINUSMINUS]:
-                #Convert ++ and -- to either += 1 or -= 1
-                action = Token(PLUSEQ, "+=") if action.type == PLUSPLUS else Token(MINUSEQ, "-=")
-                return AssignmentNode(var, action, ValueNode(Token(INTEGER, 1)))
+                if action.type in [ASSIGN, PLUSEQ, MINUSEQ]:
+                    return AssignmentNode(var, action, self.parse_expression())
+                elif action.type in [PLUSPLUS, MINUSMINUS]:
+                    #Convert ++ and -- to either += 1 or -= 1
+                    action = Token(PLUSEQ, "+=") if action.type == PLUSPLUS else Token(MINUSEQ, "-=")
+                    return AssignmentNode(var, action, ValueNode(Token(INTEGER, 1)))
 
         elif self.get_current_token().type in Keywords:
             keyword = self.get_current_token()
@@ -202,6 +215,7 @@ class Parser():
                 self.consume(RPAREN)
                 self.consume(LCURL)
                 statement_list = self.parse_statement_list()
+                statement_list.isFunction = True
                 self.consume(RCURL)
                 return FunctionDefenitionNode(funcname, paramlist, statement_list)
 
@@ -218,6 +232,22 @@ class Parser():
         self.consume("TO")
         endval = self.parse_value()
         return {"VAR": variable, "START": startval, "END": endval}
+
+    def parse_functioncall(self):
+        funcname = self.consume(ID)
+
+        self.consume(LPAREN)
+        
+        arglist = []
+        # If there are parameters
+        if self.get_current_token().type != RPAREN:
+            arglist.append(self.parse_value())
+            while self.get_current_token().type == COMMA:
+                self.consume(COMMA)
+                arglist.append(self.parse_value())
+        
+        self.consume(RPAREN)
+        return FunctionCallNode(funcname, arglist)
 
     def parse(self):
         return self.parse_statement_list()

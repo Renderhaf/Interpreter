@@ -73,7 +73,10 @@ class Runner():
             print("Running a value node -> [{}]".format(node.value))
 
         if node.token.type == ID:
-            return self.source_manager.get_variable(node.value)
+            var = self.source_manager.get_variable(node.value)
+            if var == None:
+                raise NameError("The variable {} is not defined".format(node.value))
+            return var
 
         return node.value
 
@@ -139,10 +142,15 @@ class Runner():
                 print(
                     "Return Value for type {} is -> {}".format(statement.__class__.__name__, node_retval))
 
-            # This needs to be == True because Strings and Ints eval to True
-            if node_retval in [True, "BREAK"]:
-                list_retval = node_retval
-                break
+            if node.isFunction:
+                # If a return is called in a function
+                if node_retval == True:
+                    list_retval = self.return_stack.pop()
+                    break
+            else:
+                if node_retval in [True, "BREAK"]:
+                    list_retval = node_retval
+                    break
 
         return list_retval
 
@@ -249,7 +257,40 @@ class Runner():
 
         self.source_manager.set_variable(node.name.value, node)
 
+    def run_FunctionCallNode(self, node:FunctionCallNode):
+        '''
+        This node calls a function. These are the steps it takes in order to do that.
+         - Check that the func exists and is of the right type
+         - Eval the arguments at runtime in the current scope
+         - Increment the scope
+         - Set the parameter list in the source manager
+         - Run the statement list
+         - Grab the return value
+         - Decrement the scope
+        '''
+        print("Current scope: {}".format(self.source_manager.get_current_scope()))
 
+        if self.infoLevel > 1:
+            print(
+                "Running a FunctionCallNode ->")
+
+        function_def:FunctionDefenitionNode = self.source_manager.get_variable(node.funcname.value)
+        if type(function_def) != FunctionDefenitionNode:
+            raise NameError("The function {} is not defined".format(node.funcname.value))
+
+        argument_list = [self.run_node(arg) for arg in node.arglist]
+        param_list = [param.value for param in function_def.paramlist]
+
+        self.source_manager.inc_scope()
+
+        for parameter, argument in zip(param_list, argument_list):
+            self.source_manager.set_variable(parameter, argument)
+
+        return_value = self.run_node(function_def.statement_list)
+
+        self.source_manager.dec_scope()
+        
+        return return_value
 
     def run(self):
         self.run_node(self.node_tree)

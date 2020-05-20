@@ -2,6 +2,7 @@ from Lexer import Lexer
 from Parser import Parser
 from Runner import Runner
 
+
 def run_code(code: str):
     lexer = Lexer()
     tokens = lexer.tokenize(code)
@@ -12,6 +13,7 @@ def run_code(code: str):
     runner = Runner(node_tree)
     return runner.run()
 
+
 def test_math():
     code = """
     a = 5;
@@ -20,6 +22,7 @@ def test_math():
     """
 
     assert run_code(code) == 15
+
 
 def test_if():
     code = """
@@ -33,6 +36,7 @@ def test_if():
     """
 
     assert run_code(code) == 37
+
 
 def test_nested_ifs():
     code = """
@@ -64,6 +68,7 @@ def test_if_else():
 
     assert run_code(code) == 37
 
+
 def test_types():
     code = '''
     a = 0.3;
@@ -85,6 +90,7 @@ def test_for0():
     '''
 
     assert run_code(code) == 10
+
 
 def test_for1():
     code = '''
@@ -112,6 +118,7 @@ def test_for2():
 
     assert run_code(code) == 5
 
+
 def test_break():
     code = '''
     a = 0;
@@ -125,6 +132,7 @@ def test_break():
     '''
 
     assert run_code(code) == 50
+
 
 def test_nested_break():
     code = '''
@@ -142,6 +150,7 @@ def test_nested_break():
 
     assert run_code(code) == 55
 
+
 def test_while():
     code = '''
     a = 0;
@@ -157,9 +166,11 @@ def test_while():
 
     assert run_code(code) == 10
 
+
 def test_comment():
     code = '''#return 5;#'''
     assert run_code(code) == None
+
 
 def test_plusplusminusminus():
     code = '''
@@ -173,6 +184,7 @@ def test_plusplusminusminus():
 
     assert run_code(code) == 9
 
+
 def test_pluseqminuseq():
     code = '''
     a = 0;
@@ -184,3 +196,29 @@ def test_pluseqminuseq():
     '''
 
     assert run_code(code) == 40
+
+
+def test_functions():
+    code = '''
+    func plus(a,b){
+        return (a+b);
+    }
+    return plus(1,1);
+    '''
+    assert run_code(code) == 2
+
+
+def test_recursion():
+    code = '''
+    func factorial(val){
+        print val;
+        if (val <= 1){
+            return 1;
+        }
+        newval = val-1;
+        return (val * factorial(newval));
+    }
+
+    return factorial(5);
+    '''
+    assert run_code(code) == 120

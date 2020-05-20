@@ -24,3 +24,15 @@ for (i : 0 to (exp)){
 }
 
 return a;
+
+#Calculate a factorial#
+func factorial(val){
+    print val;
+    if (val <= 1){
+        return 1;
+    }
+    newval = val-1;
+    return (val * factorial(newval));
+}
+
+return factorial(5);

@@ -1,5 +1,5 @@
 class ResourceScopeManager():
-    def __init__(self):
+    def __init__(self, max_scopes=64):
         '''
         The global scope is always available
         You can access the current scope in the scope list
@@ -8,6 +8,7 @@ class ResourceScopeManager():
         self.scopes = []
         #-1 means we currently have no scope
         self.scope_level = -1
+        self.max_scopes = max_scopes
 
     def get_variable(self, name:str):
         '''
@@ -18,7 +19,7 @@ class ResourceScopeManager():
         if name in scoped.keys():
             return scoped[name]
         else:
-            return 0
+            return None
 
     def set_variable(self, name:str, value)->None:
         if self.scope_level == -1:
@@ -52,6 +53,9 @@ class ResourceScopeManager():
         return self.scopes[self.scope_level] if self.scope_level > -1 else dict()
 
     def inc_scope(self)->None:
+        #Set recursion limit
+        if len(self.scopes) > self.max_scopes:
+            raise RecursionError("The program reached max recursion")
         self.scopes.append(dict())
         self.scope_level += 1
 

@@ -154,3 +154,14 @@ class FunctionDefenitionNode(Node):
 
     def __repr__(self):
         return self.__str__()
+
+class FunctionCallNode(Node):
+    def __init__(self, funcname:Token, arglist:list):
+        self.funcname = funcname
+        self.arglist = arglist
+
+    def __str__(self):
+        return "FunctionCallNode({}, {})".format(self.funcname, self.arglist)
+
+    def __repr__(self):
+        return self.__str__()
