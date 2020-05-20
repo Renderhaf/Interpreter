@@ -1,4 +1,4 @@
-Calculate the golden ration:
+#Calculate the golden ration#
 
 a = 1;
 b = 1;

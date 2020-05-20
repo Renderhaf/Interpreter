@@ -1,11 +1,11 @@
 from Nodes import *
 from Tokens import *
-
+from ResourceScopeManager import ResourceScopeManager as RSM
 class Runner():
     def __init__(self, node_tree, infoLevel=0):
         self.node_tree = node_tree
-        self.globalVariableTable = dict()
-        self.stack = []
+        self.return_stack = []
+        self.source_manager = RSM()
 
         '''
        Info Levels:
@@ -73,7 +73,7 @@ class Runner():
             print("Running a value node -> [{}]".format(node.value))
 
         if node.token.type == ID:
-            return self.globalVariableTable.get(node.value, 0)
+            return self.source_manager.get_variable(node.value)
 
         return node.value
 
@@ -100,8 +100,8 @@ class Runner():
                 "Running an Assignment node -> [{} -- {} -- {}]".format(node.var, node.action, node.value))
 
         if node.action.type == ASSIGN:
-            self.globalVariableTable[node.var.value] = self.run_node(
-                node.value)
+            self.source_manager.set_variable(node.var.value ,self.run_node(
+                node.value))
 
         return None
 
@@ -157,7 +157,7 @@ class Runner():
                 "Running an Action Node -> ({} -> {})".format(node.action.type, node.value))
 
         if node.action.type == "RETURN":
-            self.stack.append(self.run_node(node.value))
+            self.return_stack.append(self.run_node(node.value))
             # By returning true, this action results in a propogating return chain
             return True
 
@@ -190,18 +190,19 @@ class Runner():
         retval = None
 
         # Make sure that the var is not taken
-        if variable in self.globalVariableTable.keys():
+        if variable in self.source_manager.get_scoped_vars():
             raise NameError(
                 "The variable name {} is already taken.".format(variable))
         else:
-            self.globalVariableTable[variable] = startval
-            while self.globalVariableTable[variable] < endval:
+            self.source_manager.set_variable(variable, startval)
+            while self.source_manager.get_variable(variable) < endval:
                 retval = self.run_node(node.statement_list)
                 if retval or retval == "BREAK":
                     break
-                self.globalVariableTable[variable] += 1
+                # Increment the var by 1
+                self.source_manager.set_variable(variable, self.source_manager.get_variable(variable) + 1)
 
-            self.globalVariableTable.pop(variable)
+            self.source_manager.del_variable(variable)
 
             if retval == "BREAK":
                 return False
@@ -231,12 +232,12 @@ class Runner():
         self.run_node(self.node_tree)
         if self.infoLevel > 0:
             print("Global Variable Table at EOF is {}".format(
-                self.globalVariableTable))
-            print("Stack at EOF is {}".format(self.stack))
+                self.source_manager.get_global_vars()))
+            print("Stack at EOF is {}".format(self.return_stack))
 
         #Return the return value if possible
         try:
-            return_value = self.stack.pop()
+            return_value = self.return_stack.pop()
         except IndexError:
             return None
 
