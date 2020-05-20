@@ -27,7 +27,6 @@ return a;
 
 #Calculate a factorial#
 func factorial(val){
-    print val;
     if (val <= 1){
         return 1;
     }
