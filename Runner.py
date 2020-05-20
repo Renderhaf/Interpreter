@@ -242,6 +242,15 @@ class Runner():
         else:
             return retval
 
+    def run_FunctionDefenitionNode(self, node:FunctionDefenitionNode):
+        if self.infoLevel > 1:
+            print(
+                "Running a FunctionDefenitionNode ->")
+
+        self.source_manager.set_variable(node.name.value, node)
+
+
+
     def run(self):
         self.run_node(self.node_tree)
         if self.infoLevel > 0:

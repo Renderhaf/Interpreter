@@ -139,3 +139,18 @@ class WhileNode(Node):
 
     def __repr__(self):
         return self.__str__()
+
+class FunctionDefenitionNode(Node):
+    '''
+    This node represents a function defenition
+    '''
+    def __init__(self, name:Token, paramlist: list, statement_list: StatementListNode):
+        self.name = name
+        self.paramlist = paramlist
+        self.statement_list = statement_list
+
+    def __str__(self):
+        return "FunctionDefenitionNode({}, {}, {})".format(self.name, self.paramlist, self.statement_list)
+
+    def __repr__(self):
+        return self.__str__()

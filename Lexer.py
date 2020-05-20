@@ -13,7 +13,8 @@ class Lexer():
             ")": RPAREN,
             ";": SEMI,
             "{": LCURL,
-            ":": COLON
+            ":": COLON,
+            ",": COMMA
         }
 
         # This is used for syntax fixing
@@ -134,7 +135,10 @@ class Lexer():
         return Token(EOF, None)
 
     def peek(self)->str:
-        return self.text[self.position+1]
+        if self.position+1 < len(self.text):
+            return self.text[self.position+1]
+        else:
+            return ""
 
     def advance(self):
         self.position+=1

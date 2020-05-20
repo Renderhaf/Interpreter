@@ -129,13 +129,11 @@ class Parser():
         elif self.get_current_token().type in Keywords:
             keyword = self.get_current_token()
 
-            # Defines the syntax for return
             if keyword.type == "RETURN":
                 self.advance()
                 return_value = self.parse_value()
                 return ActionNode(Token("RETURN", "RETURN"), return_value)
 
-            # Defines the syntax for an if/else block
             elif keyword.type == "IF":
                 self.advance()
                 condition = self.parse_expression()
@@ -155,7 +153,6 @@ class Parser():
                 else:
                     return IfNode(condition, if_statement_list, None)
 
-            # Defines the syntax for a for loop
             elif keyword.type == "FOR":
                 self.advance()
                 self.consume(LPAREN)
@@ -186,6 +183,27 @@ class Parser():
                 self.advance()
                 val = self.parse_value()
                 return ActionNode(Token("PRINT", "PRINT"), val)
+
+            elif keyword.type == "FUNC":
+                self.advance()
+                funcname = self.consume(ID)
+
+                #Consume parameters
+                self.consume(LPAREN)
+                
+                paramlist = []
+                # If there are parameters
+                if self.get_current_token().type == ID:
+                    paramlist.append(self.consume(ID))
+                    while self.get_current_token().type == COMMA:
+                        self.consume(COMMA)
+                        paramlist.append(self.consume(ID))
+                
+                self.consume(RPAREN)
+                self.consume(LCURL)
+                statement_list = self.parse_statement_list()
+                self.consume(RCURL)
+                return FunctionDefenitionNode(funcname, paramlist, statement_list)
 
         return None
 

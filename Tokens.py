@@ -53,6 +53,7 @@ ID = "ID"
 
 SEMI = "Semicolon"
 COLON = "Colon"
+COMMA = "Comma"
 
 '''
 DATA TYPE CATEGORIES
@@ -65,5 +66,5 @@ KEYWORDS
 '''
 
 Keywords = [
-    "FOR", "IF", "RETURN", "ELSE", "TO", "BREAK", "WHILE", "PRINT"
+    "FOR", "IF", "RETURN", "ELSE", "TO", "BREAK", "WHILE", "PRINT", "FUNC"
 ]
