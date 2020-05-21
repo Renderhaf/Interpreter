@@ -268,8 +268,7 @@ class Runner():
          - Grab the return value
          - Decrement the scope
         '''
-        print("Current scope: {}".format(self.source_manager.get_current_scope()))
-
+        
         if self.infoLevel > 1:
             print(
                 "Running a FunctionCallNode ->")
