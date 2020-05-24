@@ -39,6 +39,16 @@ if (plus(a,b) <= a*b){
  - Stack Frame based Functions (Including Recursion)
  - Variable assignments (eg: `a=5`, `a+=5`, `a++`)
 
+## Running
+### Run Rivd Code
+To run Rivd code, you can use the rivd.py file, which takes the first argument in argv as a filepath and runs that file with the interpreter
+for example:
+`py rivd.py file.txt`
+
+will return the retval of file.txt
+### Run the tests
+Rivd has a small test suite (~20 Tests). To run it, run `pytest` in the main directory.
+
 
 ## The Interpreter
 The interpreter consists of three main parts:
