@@ -78,4 +78,9 @@ Some of the features that should be added are:
  - A standard library
 
 Also, for faster code execution, a bytecode translator could be added, and then a VM that runs that bytecode could be added too.
-Contributions are always welcome
+Contributions are always welcome.
+
+## Credits
+I mainly used two blogs / books for help with the creation of this:
+[Crafting Interpreters](https://craftinginterpreters.com/), Bob Nystrom
+[Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/), Ruslan Spivak
