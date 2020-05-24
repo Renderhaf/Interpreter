@@ -91,6 +91,6 @@ Also, for faster code execution, a bytecode translator could be added, and then 
 Contributions are always welcome.
 
 ## Credits
-I mainly used two blogs / books for help with the creation of this:
-[Crafting Interpreters](https://craftinginterpreters.com/), Bob Nystrom
+I mainly used two blogs / books for help with the creation of this:\
+[Crafting Interpreters](https://craftinginterpreters.com/), Bob Nystrom\
 [Let’s Build A Simple Interpreter](https://ruslanspivak.com/lsbasi-part1/), Ruslan Spivak
