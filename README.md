@@ -7,7 +7,7 @@ A simple Abstract-Syntax-Tree (AST) Walker Interpreter and Parser for the Rivd P
 Rivd (Pronounced Rift) is a small programming language I created for this project
 
 ### Syntax
-Since Rivd is a high-level language, its syntax is pretty simple. Its something between Javascipt and Python. Here are some Rivd code as an example:
+Since Rivd is a high-level language, it's syntax is pretty simple. Its something between Javascipt and Python. Here is some Rivd code as an example:
 
 ```go
 #This is a comment#
